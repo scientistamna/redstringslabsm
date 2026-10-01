@@ -1,0 +1,43 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { liveLangs } from '../../../i18n/languages';
+import type { Lang } from '../../../i18n/languages';
+import { t } from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  const all = await getCollection('cases');
+  return all
+    .filter((e) => e.data.status === 'live' && (liveLangs as string[]).includes(e.id.split('/')[0]))
+    .map((entry) => ({ params: { lang: entry.id.split('/')[0], slug: entry.id.split('/')[1] }, props: { entry } }));
+}
+const lang = Astro.params.lang as Lang;
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const all = await getCollection('cases');
+const next = all.find((c) => c.id.startsWith(`${lang}/`) && c.data.number === d.number + 1);
+const nextLive = next && next.data.status === 'live';
+---
+<Base lang={lang} title={d.title} description={d.hook} path={`cases/${Astro.params.slug}/`}>
+  <article class="prose">
+    <h1>{d.title}</h1>
+    <p>{d.hook}</p>
+    <div class="meta">
+      <span>{t(lang, 'case.rank')}: {t(lang, `rank.${d.rank}`)}</span>
+      {d.minutes && <span>{t(lang, 'case.time')}: {d.minutes} {t(lang, 'case.minutes')}</span>}
+      {d.tools && <span>{t(lang, 'case.tools')}: {d.tools}</span>}
+    </div>
+    {d.video && (
+      <div class="video"><iframe src={`https://www.youtube-nocookie.com/embed/${d.video}`} title={d.title} loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    )}
+    <Content />
+    <p class="mute">
+      {d.updated && <>{t(lang, 'case.updated')}: {d.updated}. </>}
+      {next && (nextLive
+        ? <a href={`/${lang}/cases/${next.id.split('/')[1]}/`}>{t(lang, 'case.next')}: {next.data.title}</a>
+        : <>{t(lang, 'case.next')}: {next.data.title} ({t(lang, 'case.soon')})</>)}
+    </p>
+    <p><a href={`/${lang}/cases/`}>{t(lang, 'case.all')}</a></p>
+  </article>
+</Base>

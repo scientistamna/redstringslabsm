@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import Stamp from '../../components/Stamp.astro';
+import { getCollection } from 'astro:content';
+import { liveLangs } from '../../i18n/languages';
+import type { Lang } from '../../i18n/languages';
+import { t, ranks } from '../../i18n/ui';
+import { site } from '../../consts';
+
+export function getStaticPaths() { return liveLangs.map((lang) => ({ params: { lang } })); }
+const lang = Astro.params.lang as Lang;
+const all = (await getCollection('cases')).filter((c) => c.id.startsWith(`${lang}/`)).sort((a, b) => b.data.number - a.data.number);
+const latest = all.slice(0, 2);
+const firstLive = all.find((c) => c.data.status === 'live');
+const slug = (id: string) => id.split('/')[1];
+---
+<Base lang={lang}>
+  <div class="hero">
+    <div>
+      <h1>{t(lang, 'hero.title')}</h1>
+      <p>{t(lang, 'hero.sub')}</p>
+      {firstLive && <a class="btn f" href={`/${lang}/cases/${slug(firstLive.id)}/`}>{t(lang, 'hero.cta1')}</a>}
+      <a class="btn" href={`/${lang}/start/`}>{t(lang, 'hero.cta2')}</a>
+    </div>
+    <div class="st"><Stamp size={280} id="hero" /></div>
+  </div>
+
+  <section class="blk">
+    <h2>{t(lang, 'latest.title')}</h2>
+    <ul class="cases">
+      {latest.map((c) => (
+        <li class={`case ${c.data.status === 'soon' ? 'soon' : ''}`}>
+          <h3>{c.data.title}</h3>
+          <p>{c.data.hook}</p>
+          {c.data.status === 'live'
+            ? <a href={`/${lang}/cases/${slug(c.id)}/`}>{t(lang, 'case.open')}</a>
+            : <span class="mute">{t(lang, 'case.soon')}</span>}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="blk">
+    <h2>{t(lang, 'ranks.title')}</h2>
+    <ul class="ranks">{ranks.map((r) => <li><b>{t(lang, `rank.${r}`)}</b><span>{t(lang, `rank.${r}.desc`)}</span></li>)}</ul>
+    <p class="mute">{t(lang, 'ranks.note')}</p>
+  </section>
+
+  <section class="blk">
+    <h2>{t(lang, 'signup.title')}</h2>
+    <p>{t(lang, 'signup.text')}</p>
+    {site.signupUrl
+      ? <a class="btn f" href={site.signupUrl}>{t(lang, 'signup.btn')}</a>
+      : <p class="mute">{t(lang, 'signup.soon')}</p>}
+  </section>
+</Base>
