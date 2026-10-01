@@ -1,0 +1,54 @@
+---
+import '@fontsource/special-elite';
+import '@fontsource/figtree/400.css';
+import '@fontsource/figtree/600.css';
+import '../styles/global.css';
+import Stamp from '../components/Stamp.astro';
+import { languages, liveLangs } from '../i18n/languages';
+import type { Lang } from '../i18n/languages';
+import { t } from '../i18n/ui';
+import { site } from '../consts';
+
+interface Props { lang: Lang; title?: string; description?: string; path?: string; }
+const { lang, title, description, path = '' } = Astro.props;
+const dir = languages[lang].dir;
+const desc = description ?? t(lang, 'meta.description');
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name}: ${t(lang, 'hero.title')}`;
+const abs = (l: string) => new URL(`/${l}/${path}`, site.url).href;
+const nav = [['start', 'nav.start'], ['cases', 'nav.cases'], ['toolbox', 'nav.toolbox'], ['decoder', 'nav.decoder'], ['parents', 'nav.parents']];
+---
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={desc} />
+    <meta name="theme-color" content="#0D1321" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={abs(lang)} />
+    {liveLangs.length > 1 && liveLangs.map((l) => <link rel="alternate" hreflang={l} href={abs(l)} />)}
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <a class="skip" href="#main">{t(lang, 'skip')}</a>
+    <div class="w">
+      <header class="nav">
+        <a class="brand" href={`/${lang}/`}><Stamp size={40} simple decorative />{site.name}</a>
+        <nav aria-label="Main" style="display:contents">
+          {nav.map(([slug, key]) => <a href={`/${lang}/${slug}/`}>{t(lang, key)}</a>)}
+        </nav>
+        {liveLangs.length > 1 && (
+          <ul class="langs">{liveLangs.map((l) => <li><a href={`/${l}/${path}`} hreflang={l} lang={l}>{languages[l].label}</a></li>)}</ul>
+        )}
+      </header>
+      <main id="main"><slot /></main>
+      <footer class="foot">
+        <p class="mute">{t(lang, 'footer.disclaimer')} <a href={`/${lang}/legal/`}>{t(lang, 'footer.legal')}</a></p>
+        <p class="mute"><a href={site.youtube}>YouTube @redstringlab</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
