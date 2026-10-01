@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { liveLangs } from '../../i18n/languages';
+import type { Lang } from '../../i18n/languages';
+import { t, ranks } from '../../i18n/ui';
+
+export function getStaticPaths() { return liveLangs.map((lang) => ({ params: { lang } })); }
+const lang = Astro.params.lang as Lang;
+const all = (await getCollection('cases')).filter((c) => c.id.startsWith(`${lang}/`)).sort((a, b) => a.data.number - b.data.number);
+---
+<Base lang={lang} title={t(lang, 'nav.start')} path="start/">
+  <section class="blk">
+    <h1>{t(lang, 'ranks.title')}</h1>
+    <ul class="ranks">
+      {ranks.map((r) => (
+        <li>
+          <b>{t(lang, `rank.${r}`)}</b>
+          <span>{t(lang, `rank.${r}.desc`)}
+            {all.filter((c) => c.data.rank === r && c.data.status === 'live').map((c) => <><br /><a href={`/${lang}/cases/${c.id.split('/')[1]}/`}>{c.data.title}</a></>)}
+          </span>
+        </li>
+      ))}
+    </ul>
+    <p class="mute">{t(lang, 'ranks.note')}</p>
+  </section>
+</Base>
