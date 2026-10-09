@@ -13,7 +13,7 @@ npm run build    # makes ./dist
 ## Put it online (GitHub + Cloudflare)
 1. Create a GitHub repo and push this folder (don't commit `node_modules` or `dist`; `.gitignore` handles it).
 2. Cloudflare dashboard, Workers & Pages, Create, Pages, connect the repo. Framework preset Astro, build command `npm run build`, output directory `dist`, environment variable `NODE_VERSION` = `22`.
-3. Add your custom domain `redstringlab.com` in the project settings, and redirect `www` to it.
+3. Add your custom domain `redstringslab.com` in the project settings, and redirect `www` to it.
 4. Every push to `main` redeploys automatically.
 
 ## Add a case
