@@ -6,7 +6,7 @@ This is a starting draft. Have it checked by a qualified person before launch.
 
 ## Not affiliated
 
-Red String Lab is independent. It is not affiliated with, endorsed by or sponsored by Google, Scratch, MIT or any tool or company shown. Names and logos belong to their owners and appear only to teach how the tools work.
+Red Strings Lab is independent. It is not affiliated with, endorsed by or sponsored by Google, Scratch, MIT, Gapminder or any tool or company shown. Names and logos belong to their owners and appear only to teach how the tools work.
 
 ## Privacy
 
