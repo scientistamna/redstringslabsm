@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://redstringlab.com',
+  site: 'https://redstringslab.com',
   integrations: [sitemap()],
   trailingSlash: 'always',
   build: { format: 'directory' },
