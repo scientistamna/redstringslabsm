@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://redstringlab.com/sitemap-index.xml
+Sitemap: https://redstringslab.com/sitemap-index.xml
