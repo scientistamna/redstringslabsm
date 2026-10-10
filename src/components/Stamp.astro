@@ -2,7 +2,7 @@
 interface Props { size?: number; id?: string; simple?: boolean; decorative?: boolean; }
 const { size = 120, id = 's', simple = false, decorative = false } = Astro.props;
 ---
-<svg width={size} height={size} viewBox="0 0 260 260" role={decorative ? undefined : 'img'} aria-label={decorative ? undefined : 'Red String Lab stamp'} aria-hidden={decorative ? 'true' : undefined}>
+<svg width={size} height={size} viewBox="0 0 260 260" role={decorative ? undefined : 'img'} aria-label={decorative ? undefined : 'Red Strings Lab stamp'} aria-hidden={decorative ? 'true' : undefined}>
   {!simple && <defs><path id={`ring-${id}`} d="M130 130 m-92 0 a92 92 0 1 1 184 0 a92 92 0 1 1 -184 0" /></defs>}
   <g transform="rotate(-8 130 130)">
     <circle cx="130" cy="130" r="118" fill="#E63946" />
