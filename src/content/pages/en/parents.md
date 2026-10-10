@@ -1,8 +1,8 @@
 ---
 title: Parents and teachers
-description: What Red String Lab teaches, and how we keep it safe for teens.
+description: What Red Strings Lab teaches, and how we keep it safe for teens.
 ---
-Red String Lab teaches data and AI literacy to ages 13 and up. Every case is a short investigation that ends with something the student built.
+Red Strings Lab teaches data and AI literacy to ages 13 and up. Every case is a short investigation that ends with something the student built.
 
 ## Safety rules we follow
 
