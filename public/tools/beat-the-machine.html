@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beat the Machine | Red Strings Lab</title>
+<style>
+:root{--bg:#F3F4F8;--card:#E4E7F0;--fg:#0D1321;--mute:#4A5470;--line:#C5CBDC;--red:#E63946;--gold:#B8860B;--pin:#F4C430;--dot:#0D1321;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0D1321;--card:#151C30;--fg:#EDEFF5;--mute:#9AA3BD;--line:#2A3452;--gold:#F4C430;--dot:#9AA3BD}}
+:root[data-theme="dark"]{--bg:#0D1321;--card:#151C30;--fg:#EDEFF5;--mute:#9AA3BD;--line:#2A3452;--gold:#F4C430;--dot:#9AA3BD}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.05rem/1.6 Figtree,system-ui,sans-serif}
+.w{max-width:760px;margin:0 auto;padding:1.5rem 1.25rem 3rem}
+h1,h2{font-family:"Special Elite","Courier New",monospace;font-weight:400;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,8vw,3rem)}h2{font-size:1.3rem;margin-bottom:.4rem}
+p{max-width:62ch;margin:.4rem 0 .9rem}
+.mute{color:var(--mute)}
+section{padding:1.2rem 0;border-top:1px solid var(--line)}
+svg.c{width:100%;height:auto;display:block;touch-action:none;background:var(--card);border-radius:4px}
+svg text{fill:var(--mute);font:12px Figtree,sans-serif}
+.g{stroke:var(--line);stroke-width:1}
+.dot{fill:var(--dot);opacity:.85}
+.hid{fill:none;stroke:var(--red);stroke-width:2.5}
+.you{stroke:var(--red);stroke-width:3;stroke-linecap:round}
+.mach{stroke:var(--gold);stroke-width:3;stroke-dasharray:8 6;stroke-linecap:round}
+.cap{stroke:var(--mute);stroke-width:1;stroke-dasharray:3 4}
+.pin{fill:var(--pin);stroke:var(--fg);stroke-width:2;cursor:grab}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;margin:.7rem 0}
+button{font:600 1rem Figtree,sans-serif;padding:.6rem 1rem;border-radius:4px;border:2px solid var(--red);background:transparent;color:var(--fg);cursor:pointer}
+button.f{background:var(--red);color:#fff}
+button:focus-visible,input:focus-visible{outline:3px solid var(--pin);outline-offset:2px}
+.box{background:var(--card);border-left:4px solid var(--red);padding:.8rem 1.1rem;margin:.8rem 0}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem}
+.stat div{background:var(--card);padding:.7rem 1rem;border-radius:4px}
+.stat b{font-family:"Special Elite","Courier New",monospace;font-weight:400;font-size:1.5rem;display:block}
+input[type=range]{width:100%;accent-color:var(--red)}
+small{color:var(--mute)}
+</style>
+</head>
+<body>
+<main class="w">
+<h1>Beat the Machine</h1>
+<p class="mute">Red Strings Lab. Every dataset is hiding something.</p>
+<p>Each dot is a made-up student: hours of practice per week, and the score they got in a game. Drag the two gold pins to draw the line you think predicts the score best. Then see whether a computer can beat you.</p>
+
+<section>
+<svg id="c" class="c" viewBox="0 0 640 360" role="img" aria-label="Scatter of practice hours against game score with a line you can move"></svg>
+<div class="stat" aria-live="polite">
+<div><span class="mute">Your line</span><b id="yl"></b></div>
+<div><span class="mute">Your typical miss, in points</span><b id="ym"></b></div>
+</div>
+<div class="row"><button class="f" id="rv">Reveal the machine's line</button><button id="ht">Test on 4 hidden students</button></div>
+<div class="box" id="mm" hidden></div>
+<div class="box" id="hh" hidden></div>
+</section>
+
+<section>
+<h2>Now predict</h2>
+<label for="t">Hours of practice per week: <b id="tv">8</b></label>
+<input id="t" type="range" min="0" max="20" step="0.5" value="8">
+<div class="box" id="pp"></div>
+</section>
+
+<section>
+<h2>Info burst</h2>
+<div class="box" id="ib">Drag a pin to start. Every move changes your typical miss.</div>
+<p><small>All data on this page is made up. Typical miss means the root mean square error: square each miss, average, take the root. Red Strings Lab is independent and not affiliated with any tool or company.</small></p>
+</section>
+</main>
+<script>
+const V=[[8.6, 75.0], [10.0, 76.0], [4.8, 45.0], [1.5, 7.0], [7.3, 72.0], [2.6, 28.0], [8.9, 75.0], [4.8, 53.0], [6.0, 60.0], [11.7, 82.0], [9.6, 94.0], [10.3, 92.0], [7.1, 69.0], [11.4, 86.0], [1.2, 11.0], [10.8, 74.0], [5.3, 51.0], [3.5, 42.0], [6.9, 57.0], [11.4, 109.0], [4.6, 51.0], [11.0, 98.0], [6.1, 66.0], [11.6, 84.0]],H=[[9.4, 88.0], [9.6, 84.0], [5.0, 39.0], [7.5, 73.0]];
+const $=id=>document.getElementById(id);
+const L=50,R=620,T=14,B=320,XM=20,YM=140,sx=(R-L)/XM,sy=(B-T)/YM;
+const px=x=>L+x*sx,py=y=>B-y*sy;
+const fit=P=>{const n=P.length;let a=0,b=0,c=0,d=0;P.forEach(([x,y])=>{a+=x;b+=y;c+=x*x;d+=x*y});const m=(n*d-a*b)/(n*c-a*a);return{a:(b-m*a)/n,b:m}};
+const rmse=(P,l)=>Math.sqrt(P.reduce((s,[x,y])=>s+(y-(l.a+l.b*x))**2,0)/P.length);
+const M=fit(V);
+let pins=[[1,40],[11,75]],showM=false,showH=false,drag=-1,moves=0,tv=8;
+const you=()=>{const[[x1,y1],[x2,y2]]=pins,b=(y2-y1)/(x2-x1);return{a:y1-b*x1,b}};
+const eq=l=>'score = '+l.a.toFixed(1)+' + '+l.b.toFixed(1)+' × hours';
+const f1=v=>v.toFixed(1);
+const bursts={rv:"The machine's line is the one that makes the squared misses as small as possible. On these 24 students, no straight line has a smaller typical miss. It cannot lose here. The real question is how it does on students it has not seen.",
+ht:"These 4 students were never used to draw either line. This is the test that counts. A line is only as good as its predictions on new data.",
+out:"The data only covers about 1 to 12 hours of practice. Outside that range the line is guessing, because nothing in the data says the pattern continues.",
+cap:"The highest possible score is 120, but the line does not know that. It happily predicts scores nobody can get.",
+sq:"Squaring the misses punishes big errors more than small ones, so the machine works hard to avoid a few very wrong guesses.",
+eye:"Eyeballing can get close with 24 dots and one column. Machines win when there are thousands of rows and dozens of columns."};
+function say(k){$('ib').textContent=bursts[k]}
+function draw(){
+  let s='';
+  for(let g=0;g<=7;g++){const y=py(g*20);s+=`<line class="g" x1="${L}" x2="${R}" y1="${y}" y2="${y}"/><text x="${L-8}" y="${y+4}" text-anchor="end">${g*20}</text>`}
+  for(let g=0;g<=10;g++){const x=px(g*2);s+=`<text x="${x}" y="${B+18}" text-anchor="middle">${g*2}</text>`}
+  s+=`<line class="cap" x1="${L}" x2="${R}" y1="${py(120)}" y2="${py(120)}"/><text x="${R}" y="${py(120)-4}" text-anchor="end">highest possible score: 120</text>`;
+  s+=`<text x="${(L+R)/2}" y="${B+36}" text-anchor="middle">Practice hours per week</text>`;
+  V.forEach(([x,y])=>{s+=`<circle class="dot" cx="${px(x)}" cy="${py(y)}" r="5"/>`});
+  if(showH)H.forEach(([x,y])=>{s+=`<circle class="hid" cx="${px(x)}" cy="${py(y)}" r="7"/>`});
+  const Y=you();s+=`<line class="you" x1="${px(0)}" y1="${py(Y.a)}" x2="${px(XM)}" y2="${py(Y.a+Y.b*XM)}"/>`;
+  if(showM)s+=`<line class="mach" x1="${px(0)}" y1="${py(M.a)}" x2="${px(XM)}" y2="${py(M.a+M.b*XM)}"/>`;
+  s+=`<line class="cap" x1="${px(tv)}" x2="${px(tv)}" y1="${T}" y2="${B}"/>`;
+  pins.forEach(([x,y],i)=>{s+=`<circle class="pin" data-i="${i}" cx="${px(x)}" cy="${py(y)}" r="11"/>`});
+  $('c').innerHTML=s;
+  $('yl').textContent=eq(Y);$('yl').style.fontSize='1rem';
+  $('ym').textContent=f1(rmse(V,Y));
+  upd();note();
+}
+function upd(){
+  const Y=you(),pu=Y.a+Y.b*tv,pm=M.a+M.b*tv;
+  let t='At '+tv+' hours, your line predicts '+f1(pu)+(showM?' and the machine predicts '+f1(pm)+'.':'. Reveal the machine to compare.');
+  if(tv<1||tv>12)t+=' Warning: your data only covers about 1 to 12 hours, so this is a guess far from the evidence.';
+  if(pu>120||(showM&&pm>120))t+=' A score above 120 is impossible. The line does not know the cap.';
+  $('pp').textContent=t;$('tv').textContent=tv;
+}
+function pos(e){const r=$('c').getBoundingClientRect();return[(e.clientX-r.left)/r.width*640,(e.clientY-r.top)/r.height*360]}
+$('c').addEventListener('pointerdown',e=>{const i=e.target.dataset&&e.target.dataset.i;if(i===undefined)return;drag=+i;$('c').setPointerCapture(e.pointerId)});
+$('c').addEventListener('pointermove',e=>{if(drag<0)return;const[X,Y]=pos(e);let x=Math.min(XM,Math.max(0,(X-L)/sx)),y=Math.min(YM,Math.max(0,(B-Y)/sy));const o=pins[1-drag][0];if(Math.abs(x-o)<1)x=drag===0?o-1:o+1;pins[drag]=[x,y];moves++;draw();if(moves===12)say('eye')});
+$('c').addEventListener('pointerup',()=>{drag=-1});
+function note(){
+  const Y=you(),a=rmse(V,Y),b=rmse(V,M);
+  $('mm').hidden=!showM;
+  if(showM)$('mm').textContent="Machine's line: "+eq(M)+". Its typical miss is "+f1(b)+" points. Yours is "+f1(a)+" points, "+(a/b).toFixed(2)+" times the machine's.";
+  $('hh').hidden=!showH;
+  if(showH)$('hh').textContent='On the 4 hidden students, your typical miss is '+f1(rmse(H,Y))+' points and the machine\'s is '+f1(rmse(H,M))+' points. The pattern on new students can look different from the pattern you trained on.';
+}
+$('rv').onclick=()=>{showM=!showM;$('rv').textContent=showM?"Hide the machine's line":"Reveal the machine's line";if(showM)say('rv');draw();upd()};
+$('ht').onclick=()=>{showH=!showH;$('ht').textContent=showH?'Hide the hidden students':'Test on 4 hidden students';if(showH)say('ht');draw()};
+$('t').oninput=e=>{tv=+e.target.value;if(tv<1||tv>12)say('out');const Y=you();if(Y.a+Y.b*tv>120||M.a+M.b*tv>120)say('cap');draw()};
+draw();
+</script>
+</body>
+</html>
