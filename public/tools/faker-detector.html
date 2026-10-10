@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Faker Detector | Red Strings Lab</title>
+<style>
+:root{--bg:#F3F4F8;--card:#E4E7F0;--fg:#0D1321;--mute:#4A5470;--line:#C5CBDC;--red:#E63946;--gold:#F4C430;--bar:#0D1321;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0D1321;--card:#151C30;--fg:#EDEFF5;--mute:#9AA3BD;--line:#2A3452;--bar:#9AA3BD}}
+:root[data-theme="dark"]{--bg:#0D1321;--card:#151C30;--fg:#EDEFF5;--mute:#9AA3BD;--line:#2A3452;--bar:#9AA3BD}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.05rem/1.6 Figtree,system-ui,sans-serif}
+.w{max-width:720px;margin:0 auto;padding:1.5rem 1.25rem 3rem}
+h1,h2{font-family:"Special Elite","Courier New",monospace;font-weight:400;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,8vw,3rem)}
+h2{font-size:1.35rem;margin-bottom:.5rem}
+p{max-width:62ch;margin:.5rem 0 1rem}
+.top{display:flex;gap:1rem;align-items:center;margin-bottom:.5rem}
+.top svg{flex:none;width:64px;height:64px}
+.mute{color:var(--mute)}
+section{padding:1.5rem 0;border-top:1px solid var(--line)}
+label{display:block;font-weight:600;margin-bottom:.4rem}
+textarea{width:100%;min-height:9rem;padding:.8rem;font:1rem/1.5 "Courier New",monospace;background:var(--card);color:var(--fg);border:2px solid var(--line);border-radius:4px}
+textarea:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem}
+button{font:600 1rem Figtree,sans-serif;padding:.65rem 1.1rem;border-radius:4px;border:2px solid var(--red);background:transparent;color:var(--fg);cursor:pointer}
+button.f{background:var(--red);color:#fff}
+.box{background:var(--card);border-left:4px solid var(--red);padding:1rem 1.2rem;margin:1rem 0}
+.box.ok{border-left-color:var(--gold)}
+.chart{width:100%;height:auto;display:block;margin:.5rem 0}
+.chart text{fill:var(--mute);font:12px Figtree,sans-serif}
+.bar{fill:var(--bar);opacity:.85}
+.str{fill:none;stroke:var(--red);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.pin{fill:var(--gold)}
+.grid{stroke:var(--line);stroke-width:1}
+.key{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem;color:var(--mute)}
+.key i{display:inline-block;width:.9rem;height:.9rem;vertical-align:-.1rem;margin-right:.35rem}
+small{color:var(--mute)}
+</style>
+</head>
+<body>
+<main class="w">
+<div class="top">
+<svg viewBox="0 0 64 64" role="img" aria-label="Red Strings Lab mark"><circle cx="32" cy="32" r="30" fill="#0D1321"/><path d="M14 24 L46 17 L31 47 Q38 55 52 49" fill="none" stroke="#E63946" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><g fill="#F4C430"><circle cx="14" cy="24" r="5"/><circle cx="46" cy="17" r="5"/><circle cx="31" cy="47" r="5"/></g><g fill="#0D1321"><circle cx="14" cy="24" r="1.8"/><circle cx="46" cy="17" r="1.8"/><circle cx="31" cy="47" r="1.8"/></g></svg>
+<div><h1>Faker Detector</h1><span class="mute">Red Strings Lab. Every dataset is hiding something.</span></div>
+</div>
+
+<section>
+<h2>Invent some numbers</h2>
+<p>Make up the populations of 30 imaginary towns. Whole numbers between 1 and 99999, any size you like. Put one on each line or separate them with spaces. Write 12500, not 12,500.</p>
+<label for="in">Your 30 invented numbers</label>
+<textarea id="in" spellcheck="false" placeholder="4820&#10;913&#10;27650&#10;..."></textarea>
+<div class="row">
+<button class="f" id="run">Run the detector</button>
+<button id="nat">Fill with a natural list</button>
+<button id="fake">Fill with a sloppy fake</button>
+<button id="clr">Clear</button>
+</div>
+</section>
+
+<section aria-live="polite" id="res" hidden>
+<h2>What the detector sees</h2>
+<p id="read" class="mute"></p>
+<svg id="chart" class="chart" viewBox="0 0 640 280" role="img" aria-label="Share of numbers starting with each digit, compared with the natural pattern"></svg>
+<div class="key"><span><i style="background:var(--bar);opacity:.85"></i>Your list</span><span><i style="background:var(--gold);border-radius:50%"></i>Natural pattern (the red string)</span></div>
+<div class="box" id="verdict"></div>
+<p id="tradeoff"></p>
+</section>
+
+<section>
+<h2>How it works, and where it fails</h2>
+<p>In many natural lists of numbers that span several sizes, like town populations, about 30% start with 1 and fewer than 5% start with 9. People inventing numbers tend to spread the first digits too evenly. The detector compares your list with 2,000 simulated natural lists of the same size and tells you how unusual yours is.</p>
+<p>It is a hint, not proof. It fails on short lists, on data with a narrow range like heights or ages, on rounded numbers, and on anyone who knows the trick. Try to beat it. If you can, you have just learned why a detector's verdict is never the same as the truth.</p>
+<p>Every detector has this trade-off. Set the bar low and it catches more fakes but accuses honest lists. OpenAI withdrew its own AI-text classifier in July 2023, citing low accuracy. A Stanford study (Liang et al., arXiv 2304.02819) found that detectors flagged more than half of English essays by non-native writers as AI-written.</p>
+<p><small>All numbers on this page are made up or simulated. Simulations use random numbers, so results change slightly each time. Red Strings Lab is independent and not affiliated with any tool or company mentioned.</small></p>
+</section>
+</main>
+<script>
+const B=[0,.30103,.17609,.12494,.09691,.07918,.06695,.05799,.05115,.04576];
+const SIM=2000;
+const $=id=>document.getElementById(id);
+const lead=x=>+Math.abs(x).toExponential()[0];
+function props(a){const c=Array(10).fill(0);a.forEach(x=>c[lead(x)]++);return c.map(v=>v/a.length)}
+function dev(a){const p=props(a);let s=0;for(let d=1;d<=9;d++)s+=Math.abs(p[d]-B[d]);return s/9}
+function natural(n){const a=[];for(let i=0;i<n;i++)a.push(Math.floor(Math.pow(10,Math.random()*5)));return a}
+function sloppy(n){const a=[];for(let i=0;i<n;i++){const d=1+Math.floor(Math.random()*9),k=Math.floor(Math.random()*5),m=Math.pow(10,k);a.push(d*m+Math.floor(Math.random()*m))}return a}
+function sim(g,n){const r=[];for(let i=0;i<SIM;i++)r.push(dev(g(n)));return r}
+function parse(t){return (t.replace(/,/g,' ').match(/\d+(?:\.\d+)?/g)||[]).map(Number).filter(x=>x>0)}
+function fill(a){$('in').value=a.join('\n')}
+function draw(p){
+  const W=640,H=280,L=44,R=620,T=16,Bm=232,mx=.4,sw=(R-L)/9;let s='';
+  for(let g=0;g<=4;g++){const y=Bm-(g/4)*(Bm-T);s+=`<line class="grid" x1="${L}" x2="${R}" y1="${y}" y2="${y}"/><text x="${L-8}" y="${y+4}" text-anchor="end">${g*10}%</text>`}
+  const pts=[];
+  for(let d=1;d<=9;d++){
+    const cx=L+(d-.5)*sw,h=Math.min(p[d],mx)/mx*(Bm-T);
+    s+=`<rect class="bar" x="${cx-sw*.3}" y="${Bm-h}" width="${sw*.6}" height="${h}"/><text x="${cx}" y="${Bm+20}" text-anchor="middle">${d}</text>`;
+    pts.push([cx,Bm-B[d]/mx*(Bm-T)]);
+  }
+  s+=`<polyline class="str" points="${pts.map(q=>q.join(',')).join(' ')}"/>`;
+  pts.forEach(q=>{s+=`<circle class="pin" cx="${q[0]}" cy="${q[1]}" r="6"/>`});
+  s+=`<text x="${(L+R)/2}" y="${H-4}" text-anchor="middle">First digit of each number</text>`;
+  $('chart').innerHTML=s;
+}
+function run(){
+  const a=parse($('in').value),n=a.length,res=$('res');
+  res.hidden=false;
+  if(n<20||n>200){
+    $('chart').innerHTML='';$('tradeoff').textContent='';
+    $('read').textContent='I read '+n+' numbers.';
+    $('verdict').className='box';
+    $('verdict').textContent=n<20?'Add at least 20 numbers. A shorter list is too small to say anything.':'Use 200 numbers or fewer.';
+    return;
+  }
+  $('read').textContent='I read '+n+' numbers.';
+  draw(props(a));
+  const yours=dev(a),nat=sim(natural,n),nat2=sim(natural,n),fk=sim(sloppy,n);
+  nat.sort((x,y)=>x-y);
+  const thr=nat[Math.floor(.95*SIM)];
+  const pct=nat.filter(v=>v<yours).length/SIM;
+  const fr=nat2.filter(v=>v>thr).length/SIM,cr=fk.filter(v=>v>thr).length/SIM;
+  const p=Math.round(pct*100);
+  let msg,cls='box';
+  if(pct>=.95){msg='Suspicious. Your list is further from the natural pattern than '+p+'% of simulated natural lists. The first digits look too even. Worth a closer look. Not proof.'}
+  else if(pct>=.8){msg='A little uneven. Your list is further from the natural pattern than '+p+'% of simulated natural lists. Not enough to raise an alarm.';cls='box ok'}
+  else{msg='Nothing unusual. Your list is further from the natural pattern than only '+p+'% of simulated natural lists. That does not prove the numbers are real. Someone who knows this trick can pass.';cls='box ok'}
+  $('verdict').className=cls;$('verdict').textContent=msg;
+  $('tradeoff').textContent='At the 95% bar, for lists of '+n+', this detector flags about '+Math.round(cr*100)+'% of sloppy fakes and wrongly flags about '+Math.round(fr*100)+'% of natural lists.';
+}
+$('run').onclick=run;
+$('nat').onclick=()=>{fill(natural(30));run()};
+$('fake').onclick=()=>{fill(sloppy(30));run()};
+$('clr').onclick=()=>{$('in').value='';$('res').hidden=true};
+</script>
+</body>
+</html>
