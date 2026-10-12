@@ -1,6 +1,5 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Stamp from '../../components/Stamp.astro';
 import { getCollection } from 'astro:content';
 import { liveLangs } from '../../i18n/languages';
 import type { Lang } from '../../i18n/languages';
@@ -22,7 +21,15 @@ const slug = (id: string) => id.split('/')[1];
       {firstLive && <a class="btn f" href={`/${lang}/cases/${slug(firstLive.id)}/`}>{t(lang, 'hero.cta1')}</a>}
       <a class="btn" href={`/${lang}/start/`}>{t(lang, 'hero.cta2')}</a>
     </div>
-    <div class="st"><Stamp size={280} id="hero" /></div>
+    <div class="st">
+      <img
+        class="hero-logo"
+        src="/logo/rsl-b-animated-logo.svg"
+        width="380"
+        height="380"
+        alt="Red Strings Lab"
+      />
+    </div>
   </div>
 
   <section class="blk">
@@ -54,3 +61,13 @@ const slug = (id: string) => id.split('/')[1];
       : <p class="mute">{t(lang, 'signup.soon')}</p>}
   </section>
 </Base>
+
+<style>
+  .hero-logo {
+    display: block;
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    margin-inline: auto;
+  }
+</style>
