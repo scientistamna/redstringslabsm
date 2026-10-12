@@ -1,6 +1,8 @@
-Red Strings Lab · Our story
-
-# Every teen deserves a head start. Not just the ones who can pay for one.
+---
+title: Our story
+description: Why Red Strings Lab exists. Free, honest data and AI practice for every teen, not just the ones who can pay for a head start.
+---
+**Every teen deserves a head start. Not just the ones who can pay for one.**
 
 ## Why this exists
 
@@ -17,22 +19,19 @@ Underneath all the changing tools, two things stay the same: data and code. If y
 - **A new case every Tuesday and Friday.** Each case is a short investigation: ask a real question, collect evidence, and catch a real trick, like a chart that lies.
 - **Free, and in your browser.** The site needs no account, and you do not need to code to start. Some of the tools we use have their own sign-in or age rules. We say so on each case and offer a free alternative where we can.
 - **Four ranks.**
-
-- **Rookie** Data basics.
-- **Analyst** AI without code.
-- **Inspector** Python.
-- **Chief** Real projects of your own.
+  - **Rookie:** data basics.
+  - **Analyst:** AI without code.
+  - **Inspector:** Python.
+  - **Chief:** real projects of your own.
 
 ## What we promise
 
 - **We tell you what is made up.** Many cases use made-up data so we know the truth and can show you where the trick is. We always say so. When we use real data, we credit the source.
 - **We do not ask teens for personal data.** No names, no faces, nothing sensitive. Parents or other adults handle any email signup.
-- **We check our tools.** Each case shows the tool's age notes and the date we last checked its terms.
+- **We check our tools.** The [Toolbox](/en/toolbox/) lists each tool's age notes and the date we last checked its terms.
 - **We would rather be honest than impressive.** A careful result that ends open beats a dramatic one that hides its flaws.
 - **We are independent.** Red Strings Lab is not affiliated with Google, MIT or any tool or company we show.
 
 Every dataset is hiding something. Let's teach teens to find it.
 
-[Start here](/en/start/) [Case files](/en/cases/) [For parents and teachers](/en/parents/)
-
-Links point to the site's own paths and will work once this page sits on the Red Strings Lab site.
+[Start here](/en/start/) · [Case files](/en/cases/) · [For parents and teachers](/en/parents/)
