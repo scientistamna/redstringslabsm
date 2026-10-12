@@ -11,6 +11,7 @@ export const ui: Record<string, Record<string, string>> = {
     'nav.toolbox': 'Toolbox',
     'nav.decoder': 'Decoder',
     'nav.parents': 'Parents',
+    'nav.about': 'About',
     'hero.title': 'Every dataset is hiding something.',
     'hero.sub': 'A new case every Tuesday and Friday. Free, works in your browser, no coding needed to start.',
     'hero.cta1': 'Open the latest case',
