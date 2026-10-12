@@ -14,7 +14,7 @@ const dir = languages[lang].dir;
 const desc = description ?? t(lang, 'meta.description');
 const fullTitle = title ? `${title} | ${site.name}` : `${site.name}: ${t(lang, 'hero.title')}`;
 const abs = (l: string) => new URL(`/${l}/${path}`, site.url).href;
-const nav = [['start', 'nav.start'], ['cases', 'nav.cases'], ['toolbox', 'nav.toolbox'], ['decoder', 'nav.decoder'], ['parents', 'nav.parents']];
+const nav = [['start', 'nav.start'], ['cases', 'nav.cases'], ['toolbox', 'nav.toolbox'], ['decoder', 'nav.decoder'], ['parents', 'nav.parents'], ['about', 'nav.about']];
 ---
 <!doctype html>
 <html lang={lang} dir={dir}>
