@@ -3,7 +3,6 @@ import '@fontsource/special-elite';
 import '@fontsource/figtree/400.css';
 import '@fontsource/figtree/600.css';
 import '../styles/global.css';
-import Stamp from '../components/Stamp.astro';
 import { languages, liveLangs } from '../i18n/languages';
 import type { Lang } from '../i18n/languages';
 import { t } from '../i18n/ui';
@@ -36,7 +35,10 @@ const nav = [['start', 'nav.start'], ['cases', 'nav.cases'], ['toolbox', 'nav.to
     <a class="skip" href="#main">{t(lang, 'skip')}</a>
     <div class="w">
       <header class="nav">
-        <a class="brand" href={`/${lang}/`}><Stamp size={40} simple decorative />{site.name}</a>
+        <a class="brand" href={`/${lang}/`}>
+          <img class="brand-mark" src="/logo/rsl-b-animated-mark.svg" width="44" height="44" alt="" />
+          {site.name}
+        </a>
         <nav aria-label="Main" style="display:contents">
           {nav.map(([slug, key]) => <a href={`/${lang}/${slug}/`}>{t(lang, key)}</a>)}
         </nav>
@@ -52,3 +54,11 @@ const nav = [['start', 'nav.start'], ['cases', 'nav.cases'], ['toolbox', 'nav.to
     </div>
   </body>
 </html>
+
+<style>
+  .brand-mark {
+    display: block;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+</style>
