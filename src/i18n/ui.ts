@@ -14,7 +14,7 @@ export const ui: Record<string, Record<string, string>> = {
     'nav.about': 'About',
     'hero.title': 'Every dataset is hiding something.',
     'hero.sub': 'A new case every Tuesday and Friday. Free, works in your browser, no coding needed to start.',
-    'hero.cta1': 'Start with Case 1',
+    'hero.cta1': 'Start with Case',
     'hero.cta2': 'Pick your rank',
     'latest.title': 'Latest cases',
     'case.open': 'Open the file',
