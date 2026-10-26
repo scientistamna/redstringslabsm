@@ -5,16 +5,16 @@ hook: "Each dot is a country, not a person. So what can this chart really tell y
 rank: rookie
 minutes: 30
 tools: "Gapminder interactive chart in the browser (free, no sign-up)"
-status: soon   # change to live when the video and the [brackets] below are filled in
-updated: "[date]"
+status: live
+updated: "26 Oct 2026"
 # video: "PASTE_YOUTUBE_VIDEO_ID"
 chapters: []
 subtitles: []
-downloads: []                       # no data download unless the provider's terms for that indicator are checked
+downloads: []
 resources:
   - label: "Gapminder tools"
     url: "https://www.gapminder.org/tools/"
-    note: "Replace with the exact page you used and the Gapminder page on how country averages hide inequalities."
+    note: "Free interactive charts. Credit: Gapminder.org, CC-BY license. Check the tool's own terms before you use it."
 decoder: [Indicator, Scale, Log scale, Country average, Correlation]
 challenge: "Pick two countries from the chart. Write one sentence the data supports, and one sentence it cannot prove. Send us both. No personal details, just countries and numbers."
 parentNote: "No personal data is collected. We describe data, not people, and we never rank countries as sad or bad."
@@ -39,14 +39,18 @@ Tone rule for this case: we describe data, not people. We never rank countries a
 
 ## Before you start
 
-Open the tool and note the year showing, the exact axis labels, and what the score measures: [READ FROM THE DOCUMENTATION: how the question is asked and its scale].
+Open the tool and note three things before you draw any conclusion:
+
+- The year showing.
+- The exact axis labels. Click each label and read it.
+- What the happiness score measures. Find the documentation page and read how the question is asked and what its scale is.
 
 ## Your mission
 
-1. Set the horizontal axis to income per person and the vertical axis to happiness score. Axis names may differ, so click each label and read it.
-2. Remember: each dot is a country, not a person. Dot size is population. The year showing is [YEAR FROM SCREEN].
-3. Pause and guess. If a country's income doubles, does its happiness score double? Then look: does the cloud rise in a straight line or flatten out? [DESCRIBE WHAT YOU SEE]
-4. Check the income axis. It may be on a log scale, where each step is a multiplication. Switch it to linear if the tool allows and describe what changes: [DESCRIBE HONESTLY].
+1. Set the horizontal axis to income per person and the vertical axis to happiness score.
+2. Remember: each dot is a country, not a person. Dot size is population.
+3. Pause and guess. If a country's income doubles, does its happiness score double? Then look at the chart. Does the cloud rise in a straight line, or does it flatten out? Which part looks steepest?
+4. Check the income axis. It may be on a log scale, where each step is a multiplication, not an addition. If the tool allows it, switch it to linear. How do the dots move? Does the picture look more or less like a line?
 5. Pick two countries. Write one sentence the data supports and one it cannot prove.
 
 ## The twist: averages hide people
@@ -55,8 +59,8 @@ Each dot is a country's average. Inside any country some people have far more th
 
 ## Case status
 
-Money and happiness move together in this chart. Whether one causes the other, this data cannot say. Case not closed. Case opened.
+Money and happiness move together in this chart. Whether one causes the other, this data cannot say. Rich countries may differ in many other ways. Case not closed. Case opened.
 
 ## Credit
 
-Showing a free visualization from Gapminder.org, CC-BY license. The score comes from the World Happiness Report named in the tool. This site is independent and not affiliated with Gapminder or any tool shown. Terms checked on [date].
+Gapminder.org, CC-BY license. The happiness score comes from the World Happiness Report named in the tool. This site is independent and not affiliated with Gapminder or any tool shown.
