@@ -17,4 +17,4 @@ Red Strings Lab is independent. It is not affiliated with, endorsed by or sponso
 
 ## Terms
 
-Case materials are for learning. Tool terms may change, so check them before you use a tool. Contact: [add email address].
+Case materials are for learning. Tool terms may change, so check them before you use a tool. Contact: message us through our YouTube channel (the link is in the footer) until an email address is added here.
