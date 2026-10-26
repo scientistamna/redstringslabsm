@@ -8,9 +8,11 @@ import { site } from '../../consts';
 
 export function getStaticPaths() { return liveLangs.map((lang) => ({ params: { lang } })); }
 const lang = Astro.params.lang as Lang;
-const all = (await getCollection('cases')).filter((c) => c.id.startsWith(`${lang}/`)).sort((a, b) => b.data.number - a.data.number);
-const latest = all.slice(0, 2);
-const firstLive = all.find((c) => c.data.status === 'live');
+const all = (await getCollection('cases')).filter((c) => c.id.startsWith(`${lang}/`));
+const live = all.filter((c) => c.data.status === 'live').sort((a, b) => b.data.number - a.data.number);
+const nextSoon = all.filter((c) => c.data.status === 'soon').sort((a, b) => a.data.number - b.data.number)[0];
+const latest = [...live.slice(0, 3), ...(nextSoon ? [nextSoon] : [])];
+const firstLive = live[live.length - 1]; // lowest-numbered live case
 const slug = (id: string) => id.split('/')[1];
 ---
 <Base lang={lang}>
@@ -21,16 +23,15 @@ const slug = (id: string) => id.split('/')[1];
       {firstLive && <a class="btn f" href={`/${lang}/cases/${slug(firstLive.id)}/`}>{t(lang, 'hero.cta1')}</a>}
       <a class="btn" href={`/${lang}/start/`}>{t(lang, 'hero.cta2')}</a>
     </div>
-    <div class="st">
-      <img
-        class="hero-logo"
-        src="/logo/rsl-b-animated-logo.svg"
-        width="380"
-        height="380"
-        alt="Red Strings Lab"
-      />
-    </div>
+    <div class="st"><img src="/logo/red-strings-lab-stamp-no-sm.png" width="280" height="280" alt="Red Strings Lab stamp" style="width:100%;height:auto;display:block" /></div>
   </div>
+
+  {site.trailerId && (
+    <section class="blk">
+      <h2>{t(lang, 'trailer.title')}</h2>
+      <div class="video"><iframe src={`https://www.youtube-nocookie.com/embed/${site.trailerId}`} title={t(lang, 'trailer.title')} loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    </section>
+  )}
 
   <section class="blk">
     <h2>{t(lang, 'latest.title')}</h2>
@@ -58,16 +59,6 @@ const slug = (id: string) => id.split('/')[1];
     <p>{t(lang, 'signup.text')}</p>
     {site.signupUrl
       ? <a class="btn f" href={site.signupUrl}>{t(lang, 'signup.btn')}</a>
-      : <p class="mute">{t(lang, 'signup.soon')}</p>}
+      : <><a class="btn f" href={`${site.youtube}?sub_confirmation=1`}>{t(lang, 'signup.subscribe')}</a><p class="mute">{t(lang, 'signup.soon')}</p></>}
   </section>
 </Base>
-
-<style>
-  .hero-logo {
-    display: block;
-    width: 100%;
-    max-width: 380px;
-    height: auto;
-    margin-inline: auto;
-  }
-</style>
