@@ -5,8 +5,8 @@ hook: "Ice cream and sunburns rise together. So ban ice cream? Or is something e
 rank: rookie
 minutes: 30
 tools: "Google Sheets, or LibreOffice Calc"
-status: soon   # change to live on publish day
-updated: "[date]"
+status: live
+updated: "26 Oct 2026"
 # video: "PASTE_YOUTUBE_VIDEO_ID"
 chapters: []
 subtitles: []
