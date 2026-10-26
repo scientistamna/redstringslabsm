@@ -6,7 +6,33 @@ rank: rookie
 minutes: 30
 tools: "Google Forms and Sheets, or any form tool and LibreOffice"
 status: live
-updated: "[date]"
+updated: "26 Oct 2026"
+# video: "PASTE_YOUTUBE_VIDEO_ID"   # the part after v= in the video link
+chapters: []                        # e.g. - { time: "0:30", label: "The mystery" }
+subtitles: []                       # e.g. ["ur", "ar"] once subtitles are uploaded
+downloads:
+  - label: "Starter sheet (.xlsx)"
+    file: "/downloads/red-string-lab_case01_starter-sheet.xlsx"
+    note: "Four tabs: Data, Your Turn, Answer Key, Read Me. Try the Answer Key yourself first."
+  - label: "Dataset (.csv)"
+    file: "/downloads/case01_data.csv"
+resources: []                       # e.g. - { label: "Tool help page", url: "https://...", note: "..." }
+decoder: [Average, Median, Outlier, Correlation, Dataset]
+challenge: "Run the survey on 10 real people. Find your outlier. Send us your one honest sentence, with no names and no faces. The best ones may be featured, only with a parent's written consent."
+parentNote: "This case collects no personal data, and the survey should stay anonymous."
+quiz:
+  - q: "The average is 5.25 hours but the median is 4.5. What most likely explains the gap?"
+    options: ["One very high value pulls the average up", "The median was calculated wrongly", "People slept too little", "Nothing, they should always match"]
+    answer: 0
+    explain: "A single extreme value moves the average a lot but barely moves the median."
+  - q: "You find a 14-hour answer. What should you do?"
+    options: ["Delete it without telling anyone", "Keep it and say what you did and why", "Replace it with the average", "Ignore the whole survey"]
+    answer: 1
+    explain: "Never remove data silently. Show your choice so others can check it."
+  - q: "Two things move together strongly. What does that prove?"
+    options: ["One causes the other", "They are linked in this data, cause unknown", "The data must be wrong", "Nothing at all"]
+    answer: 1
+    explain: "Correlation shows a pattern, not a cause."
 ---
 
 Ten people answered a survey about sleep and screen time. The average says one thing. The middle person says another. Your job is to find out which one is telling the truth.
@@ -60,22 +86,3 @@ Hours of screen time yesterday, one bar per person:
 Sleep against screen time: the link looks weak with the outlier (-0.37) and strong without it (-0.96). One row changed the story, which is why you always say what you did with it.
 
 </div>
-
-## Get the files
-
-- [Starter sheet (.xlsx)](/downloads/red-string-lab_case01_starter-sheet.xlsx)
-- [Dataset (.csv)](/downloads/case01_data.csv)
-
-The sheet has four tabs: Data, Your Turn, Answer Key and Read Me. Try the Answer Key yourself before you peek.
-
-## Challenge
-
-Run the survey on 10 real people. Find your outlier. Send us your one honest sentence, with no names and no faces. The best ones may be featured, only with a parent's written consent.
-
-## Decoder words in this case
-
-Average, median, outlier, correlation, dataset. See the [Decoder](/en/decoder/).
-
-## Case closed
-
-Parent note: this case collects no personal data, and the survey should stay anonymous.
