@@ -1,7 +1,8 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import Video from '../../../components/Video.astro';
 import { getCollection, render } from 'astro:content';
-import { liveLangs } from '../../../i18n/languages';
+import { liveLangs, languages } from '../../../i18n/languages';
 import type { Lang } from '../../../i18n/languages';
 import { t } from '../../../i18n/ui';
 
@@ -16,8 +17,10 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const all = await getCollection('cases');
-const next = all.find((c) => c.id.startsWith(`${lang}/`) && c.data.number === d.number + 1);
-const nextLive = next && next.data.status === 'live';
+const sib = (n: number) => all.find((c) => c.id.startsWith(`${lang}/`) && c.data.number === n);
+const next = sib(d.number + 1);
+const prev = sib(d.number - 1);
+const link = (c: any) => `/${lang}/cases/${c.id.split('/')[1]}/`;
 ---
 <Base lang={lang} title={d.title} description={d.hook} path={`cases/${Astro.params.slug}/`}>
   <article class="prose">
@@ -28,16 +31,58 @@ const nextLive = next && next.data.status === 'live';
       {d.minutes && <span>{t(lang, 'case.time')}: {d.minutes} {t(lang, 'case.minutes')}</span>}
       {d.tools && <span>{t(lang, 'case.tools')}: {d.tools}</span>}
     </div>
-    {d.video && (
-      <div class="video"><iframe src={`https://www.youtube-nocookie.com/embed/${d.video}`} title={d.title} loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-    )}
+
+    <Video id={d.video} title={d.title} chapters={d.chapters} soon={d.videoDate ? `${t(lang, 'lesson.video.date')} ${d.videoDate}.` : t(lang, 'lesson.video.soon')} jump={t(lang, 'lesson.chapters')} />
+
     <Content />
-    <p class="mute">
-      {d.updated && <>{t(lang, 'case.updated')}: {d.updated}. </>}
-      {next && (nextLive
-        ? <a href={`/${lang}/cases/${next.id.split('/')[1]}/`}>{t(lang, 'case.next')}: {next.data.title}</a>
-        : <>{t(lang, 'case.next')}: {next.data.title} ({t(lang, 'case.soon')})</>)}
+
+    {d.downloads.length > 0 && (<section><h2>{t(lang, 'lesson.downloads')}</h2><ul>
+      {d.downloads.map((f) => <li><a href={f.file} download>{f.label}</a>{f.note && <> <span class="mute">{f.note}</span></>}</li>)}
+    </ul></section>)}
+
+    {d.resources.length > 0 && (<section><h2>{t(lang, 'lesson.resources')}</h2><ul>
+      {d.resources.map((r) => <li><a href={r.url} rel="noopener noreferrer">{r.label}</a>{r.note && <> <span class="mute">{r.note}</span></>}</li>)}
+    </ul></section>)}
+
+    {d.challenge && <section><h2>{t(lang, 'lesson.challenge')}</h2><p>{d.challenge}</p></section>}
+
+    {d.quiz.length > 0 && (<section><h2>{t(lang, 'lesson.quiz')}</h2>
+      {d.quiz.map((q, i) => (
+        <fieldset class="quiz" data-answer={q.answer} data-explain={q.explain} data-right={t(lang, 'lesson.right')} data-wrong={t(lang, 'lesson.wrong')}>
+          <legend>{q.q}</legend>
+          {q.options.map((o, j) => <label><input type="radio" name={`q${i}`} value={j} /> {o}</label>)}
+          <button type="button" class="btn">{t(lang, 'lesson.check')}</button>
+          <p class="fb mute" aria-live="polite"></p>
+        </fieldset>
+      ))}
+    </section>)}
+
+    {d.decoder.length > 0 && <section><h2>{t(lang, 'lesson.decoder')}</h2><p>{d.decoder.join(', ')}. <a href={`/${lang}/decoder/`}>{t(lang, 'nav.decoder')}</a></p></section>}
+
+    <section><h2>{t(lang, 'lesson.closed')}</h2>
+      {d.parentNote && <p><b>{t(lang, 'lesson.parent')}:</b> {d.parentNote}</p>}
+      {d.subtitles.length > 0 && <p class="mute">{t(lang, 'lesson.subtitles')}: {d.subtitles.map((c) => languages[c as Lang]?.label ?? c).join(', ')}</p>}
+      {d.updated && <p class="mute">{t(lang, 'case.updated')}: {d.updated}</p>}
+    </section>
+
+    <p>
+      {prev && <a href={link(prev)}>← {t(lang, 'lesson.prev')}: {prev.data.title}</a>}<br />
+      {next && (next.data.status === 'live'
+        ? <a href={link(next)}>{t(lang, 'case.next')}: {next.data.title} →</a>
+        : <span class="mute">{t(lang, 'case.next')}: {next.data.title} ({t(lang, 'case.soon')})</span>)}
     </p>
     <p><a href={`/${lang}/cases/`}>{t(lang, 'case.all')}</a></p>
   </article>
 </Base>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.quiz').forEach((box) => {
+    box.querySelector('button')?.addEventListener('click', () => {
+      const pick = box.querySelector<HTMLInputElement>('input:checked');
+      const fb = box.querySelector('.fb');
+      if (!pick || !fb) return;
+      const ok = Number(pick.value) === Number(box.dataset.answer);
+      fb.textContent = `${ok ? box.dataset.right : box.dataset.wrong} ${box.dataset.explain}`;
+    });
+  });
+</script>
