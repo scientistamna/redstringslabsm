@@ -30,6 +30,8 @@ const nav = [['start', 'nav.start'], ['cases', 'nav.cases'], ['toolbox', 'nav.to
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={desc} />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL('/logo/red-strings-lab-stamp-no-sm.png', site.url).href} />
+    <meta name="twitter:card" content="summary" />
   </head>
   <body>
     <a class="skip" href="#main">{t(lang, 'skip')}</a>
@@ -49,7 +51,7 @@ const nav = [['start', 'nav.start'], ['cases', 'nav.cases'], ['toolbox', 'nav.to
       <main id="main"><slot /></main>
       <footer class="foot">
         <p class="mute">{t(lang, 'footer.disclaimer')} <a href={`/${lang}/legal/`}>{t(lang, 'footer.legal')}</a></p>
-        <p class="mute"><a href={site.youtube}>YouTube</a></p>
+        <p class="mute">{t(lang, 'footer.follow')}: <a href={site.youtube} rel="noopener">YouTube</a> · <a href={site.pinterest} rel="noopener">Pinterest</a> · <a href={site.reddit} rel="noopener">Reddit</a></p>
       </footer>
     </div>
   </body>
