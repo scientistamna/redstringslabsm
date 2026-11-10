@@ -11,7 +11,7 @@ export const site = {
   pinterest: 'https://www.pinterest.com/redstringslab/',
   reddit: 'https://www.reddit.com/user/redstringslab/',
   // Trailer video ID: the part after v= in the YouTube link (or after youtu.be/). Empty = trailer section hidden.
-  trailerId: 'https://youtu.be/RkadaX9wUvY',
+  trailerId: 'RkadaX9wUvY',
   // Paste your email tool's signup page link here (MailerLite, Buttondown...). Empty = "opens soon".
   signupUrl: '',
 };
