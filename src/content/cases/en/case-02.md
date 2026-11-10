@@ -8,7 +8,7 @@ tools: "Google Sheets, or any spreadsheet tool such as LibreOffice"
 status: live
 updated: "10 Nov 2026"
 videoDate: "Tuesday 10 November"   # delete this line when you add the video ID
-# video: "PASTE_YOUTUBE_VIDEO_ID"
+# video: "(https://youtu.be/ue9XCRTRE9Q)"
 chapters: []
 subtitles: []
 downloads:
