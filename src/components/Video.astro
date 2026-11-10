@@ -2,24 +2,27 @@
 interface Props { id?: string; title: string; chapters?: { time: string; label: string }[]; soon: string; jump: string; }
 const { id, title, chapters = [], soon, jump } = Astro.props;
 const secs = (t: string) => t.split(':').reverse().reduce((a, v, i) => a + Number(v) * 60 ** i, 0);
+const embed = id ? `https://www.youtube-nocookie.com/embed/${id}` : '';
 ---
-{id ? (
+{id && (
   <div class="video" data-video>
-    <iframe src={`https://www.youtube-nocookie.com/embed/${id}`} data-base={`https://www.youtube-nocookie.com/embed/${id}`} title={title} loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <iframe src={embed} data-base={embed} title={title} loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
   </div>
-  {chapters.length > 0 && (
-    <div class="chapters"><b>{jump}:</b>
-      {chapters.map((c) => <button type="button" data-start={secs(c.time)}>{c.time} {c.label}</button>)}
-    </div>
-  )}
-) : (
+)}
+{id && chapters.length > 0 && (
+  <div class="chapters">
+    <b>{jump}:</b>
+    {chapters.map((c) => <button type="button" data-start={secs(c.time)}>{c.time} {c.label}</button>)}
+  </div>
+)}
+{!id && (
   <div class="video soon"><p>{soon}</p></div>
 )}
 <script>
-  document.querySelectorAll<HTMLButtonElement>('.chapters button').forEach((b) =>
+  document.querySelectorAll('.chapters button').forEach((b) => {
     b.addEventListener('click', () => {
-      const f = document.querySelector<HTMLIFrameElement>('[data-video] iframe');
-      if (f) f.src = `${f.dataset.base}?start=${b.dataset.start}&autoplay=1`;
-    }),
-  );
+      const f = document.querySelector('[data-video] iframe');
+      if (f) f.src = f.dataset.base + '?start=' + b.dataset.start + '&autoplay=1';
+    });
+  });
 </script>
