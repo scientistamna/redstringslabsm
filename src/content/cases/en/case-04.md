@@ -6,7 +6,8 @@ rank: rookie
 minutes: 30
 tools: "Google Sheets, or LibreOffice Calc"
 status: live
-updated: "26 Oct 2026"
+updated: "10 Nov 2026"
+videoDate: "Tuesday 17 November"   # delete this line when you add the video ID
 # video: "PASTE_YOUTUBE_VIDEO_ID"
 chapters: []
 subtitles: []
