@@ -7,7 +7,7 @@ minutes: 30
 tools: "Google Sheets, or LibreOffice Calc"
 status: live
 updated: "10 Nov 2026"
-videoDate: "Tuesday 17 November"   # delete this line when you add the video ID
+videoDate: "Tuesday 20 November"   # delete this line when you add the video ID
 # video: "PASTE_YOUTUBE_VIDEO_ID"
 chapters: []
 subtitles: []
