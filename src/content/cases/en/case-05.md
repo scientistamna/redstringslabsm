@@ -5,8 +5,8 @@ hook: "My friends say 16.6 hours. The truth is 11.0. Why asking only your friend
 rank: rookie
 minutes: 30
 tools: "Google Sheets, or LibreOffice Calc"
-status: Live
-updated: "November 11 , 2026"
+status: live
+updated: "16 Nov 2026"
 # video: "PASTE_YOUTUBE_VIDEO_ID"
 chapters: []
 subtitles: []
