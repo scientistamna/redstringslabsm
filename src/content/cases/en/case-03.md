@@ -8,7 +8,7 @@ tools: "Gapminder interactive chart in the browser (free, no sign-up)"
 status: live
 updated: "10 Nov 2026"
 videoDate: "Tuesday 17 November"   # delete this line when you add the video ID
-# video: "PASTE_YOUTUBE_VIDEO_ID"
+video: "b-fJF3vffjA"
 chapters: []
 subtitles: []
 downloads: []
