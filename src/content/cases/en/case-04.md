@@ -6,9 +6,9 @@ rank: rookie
 minutes: 30
 tools: "Google Sheets, or LibreOffice Calc"
 status: live
-updated: "10 Nov 2026"
-videoDate: "Tuesday 20 November"   # delete this line when you add the video ID
-# video: "5Gae0aYWu5I"
+updated: "25 Nov 2026"
+videoDate: "Tuesday 24 November"   # delete this line when you add the video ID
+video: "5Gae0aYWu5I"
 chapters: []
 subtitles: []
 downloads:
