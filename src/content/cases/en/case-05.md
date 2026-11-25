@@ -6,8 +6,8 @@ rank: rookie
 minutes: 30
 tools: "Google Sheets, or LibreOffice Calc"
 status: live
-updated: "16 Nov 2026"
-# video: "PASTE_YOUTUBE_VIDEO_ID"
+updated: "25 Nov 2026"
+video: ""
 chapters: []
 subtitles: []
 downloads: []   # add the Case 5 starter sheet and CSV here when the team sends them
