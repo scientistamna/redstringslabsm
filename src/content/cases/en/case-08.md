@@ -5,8 +5,8 @@ hook: "Stop watching, start investigating. Pick a question, collect real data, a
 rank: rookie
 minutes: 60
 tools: "Google Sheets, using the Case File Kit"
-status: soon   # change to live on publish day
-updated: "[date]"
+status: Live
+updated: " 25-11-2016 "
 # video: "PASTE_YOUTUBE_VIDEO_ID"
 chapters: []
 subtitles: []
