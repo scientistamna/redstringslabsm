@@ -5,7 +5,7 @@ hook: "Two bars, both labelled Bus. The sheet thinks they are different things. 
 rank: rookie
 minutes: 35
 tools: "Google Sheets, or LibreOffice Calc"
-status: Live
+status: live
 updated: " 25-11-2026 "
 # video: "PASTE_YOUTUBE_VIDEO_ID"
 chapters: []
