@@ -5,7 +5,7 @@ hook: "Almost half the answers are blank. Where did those people go?"
 rank: rookie
 minutes: 30
 tools: "Google Sheets, or LibreOffice Calc"
-status: Live
+status: live
 updated: "25-11-2026"
 # video: "PASTE_YOUTUBE_VIDEO_ID"
 chapters: []
