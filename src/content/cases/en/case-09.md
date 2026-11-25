@@ -5,7 +5,7 @@ hook: "This computer has never seen a mug. Teach it in five minutes, then find o
 rank: analyst
 minutes: 40
 tools: "Teachable Machine (free, in the browser)"
-status: Live
+status: live
 updated: " 25-11-2026"
 # video: "PASTE_YOUTUBE_VIDEO_ID"
 chapters: []
